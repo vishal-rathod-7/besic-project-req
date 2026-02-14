@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+</head>
+<body style="text-align:center;">
+
+    <h2 id="welcomeText"></h2>
+    <p>Water timing will be displayed here soon.</p>
+
+<script>
+sessionStorage.setItem("userMobile", mobile);
+window.location.href = "user_dashboard.html";
+
+if(!mobile){
+    window.location.href = "user_login.html";
+}
+
+fetch("http://127.0.0.1:5000/get_user/" + mobile)
+.then(res => res.json())
+.then(data => {
+    if(data.status === "success"){
+        document.getElementById("welcomeText").innerText =
+            "Welcome " + data.name + " 👋";
+    } else {
+        alert("User not found");
+        window.location.href = "user_login.html";
+    }
+})
+.catch(err => {
+    alert("Server error");
+});
+
+</script>
+
+</body>
+</html>
